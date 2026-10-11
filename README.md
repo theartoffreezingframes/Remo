@@ -74,3 +74,36 @@ DOUBLE GAME aims to deliver an original, character-driven open-world experience 
 The objective is not simply to create another open-world crime game, but to build a distinctive interactive experience where every identity has consequences, every clue matters, and every victory may conceal a bigger game.
 
 **The question is not who is playing the game. It's who created it.**
+
+---
+
+## 🛠️ Act I Vertical Slice — build & deploy
+
+A playable single-file HTML5/WebGL2 prototype of Act I (missions 1 & 2) lives on
+the `arena/992b5c93-remo` branch. It has **zero runtime dependencies** — no
+Vite, no bundler, no CDN. The shipped `double-game.html` is entirely
+self-contained and runs from `file://` or any static host.
+
+```bash
+npm install        # no packages; satisfies hosts that require a lockfile
+npm run build      # parts/* -> double-game.html + dist/index.html
+npm test           # 65 headless engine checks (Node VM + WebGL2 mock)
+npm run serve      # local preview on http://localhost:8000
+npm run check      # static reference gate (needs python3)
+```
+
+Source is authored in `parts/` and concatenated by `tools/build.sh`. The deploy
+path needs only **bash + node**; `python3` is used for the optional static
+reference gate and is skipped with a warning when absent.
+
+### Render (static site)
+
+| Setting            | Value                            |
+|--------------------|----------------------------------|
+| Root Directory     | *(leave blank — repo root)*      |
+| Build Command      | `npm install && npm run build`   |
+| Publish Directory  | `dist`                           |
+| Node version       | 18+                              |
+
+`npm run build` writes `dist/index.html`, which **is** the game, so the root URL
+loads it directly with no redirect.
